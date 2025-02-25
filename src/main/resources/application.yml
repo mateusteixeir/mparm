@@ -1,0 +1,9 @@
+spring:
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.OracleDialect
+    hibernate:
+        ddl-auto: validate
