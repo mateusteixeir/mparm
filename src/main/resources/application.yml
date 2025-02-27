@@ -1,9 +1,29 @@
 spring:
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.xml
+    default-schema: MPUSER
+    change-log: classpath:db/changelog/changelog-master.xml
     enabled: true
+#    logging:
+#        level:
+#            liquibase: debug
 
   jpa:
-    database-platform: org.hibernate.dialect.OracleDialect
-    hibernate:
-        ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: MPUSER
+        #hibernate.default_schema: MPUSER
+        dialect: org.hibernate.dialect.OracleDialect
+        ddl-auto: update
+
+  datasource:
+    url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+    username: MPUSER
+    password: 123456
+    driver-class-name: oracle.jdbc.OracleDriver
+    driverClassName: oracle.jdbc.OracleDriver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 15
+      connection-timeout: 30000
+      idle-timeout: 300000
+      max-lifetime: 900000
