@@ -2,15 +2,13 @@ package com.mp.mparm.features.agente.model.entity;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "AGENTE")
@@ -40,7 +38,7 @@ public class Agente {
     @Column(name = "CPF", nullable = false, unique = true)
     private String cpf;
 
-    @NotBlank
+    @NotNull
     @Column(name = "DATA_NASCIMENTO", nullable = false)
     private LocalDate dataNascimento;
 
@@ -52,7 +50,8 @@ public class Agente {
     @NotBlank
     @Pattern(regexp = "\\d{10,11}", message = "O telefone deve conter entre 10 e 11 digitos")
     @Column(name = "TELEFONE", length = 20)
-    private Integer telefone;
+    private String telefone;
+
 
     @CreationTimestamp
     @Column(name = "CREATED_AT", nullable = false)
@@ -63,6 +62,7 @@ public class Agente {
     private LocalDate updatedAt;
 
     @Column(name = "DELETED_AT")
-    private LocalDate deletedAt;
+    private LocalDateTime deletedAt; // Usando LocalDateTime
+
 
 }

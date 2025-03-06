@@ -1,6 +1,7 @@
 package com.mp.mparm.features.agente.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -14,7 +15,7 @@ public record AgenteCadDTO(
         @NotBlank(message = "O CPF é obrigatório")
         String cpf,
 
-        @NotBlank(message = "A data de nascimento é obrigatória")
+        @NotNull(message = "A data de nascimento é obrigatória")
         LocalDate dataNascimento,
 
         @NotBlank(message = "O email é obrigatório")

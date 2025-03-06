@@ -1,6 +1,6 @@
 spring:
   liquibase:
-    default-schema: MPUSER
+    default-schema: C##MPUSER
     change-log: classpath:db/changelog/changelog-master.xml
     enabled: true
 #    logging:
@@ -10,14 +10,15 @@ spring:
   jpa:
     properties:
       hibernate:
-        default_schema: MPUSER
+        default_schema: C##MPUSER
         #hibernate.default_schema: MPUSER
         dialect: org.hibernate.dialect.OracleDialect
         ddl-auto: update
 
   datasource:
-    url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
-    username: MPUSER
+    #url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+    url: jdbc:oracle:thin:@//localhost:1521/ORCLCDB
+    username: C##MPUSER
     password: 123456
     driver-class-name: oracle.jdbc.OracleDriver
     driverClassName: oracle.jdbc.OracleDriver

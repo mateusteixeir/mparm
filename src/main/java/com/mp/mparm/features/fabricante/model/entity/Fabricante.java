@@ -1,9 +1,7 @@
-package com.mp.mparm.features.calibre.model.entity;
+package com.mp.mparm.features.fabricante.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,13 +11,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "CALIBRE")
+@Table(name = "FABRICANTE")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Calibre {
+public class Fabricante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +25,9 @@ public class Calibre {
     private Long id;
 
     @NotBlank
-    @Size(max = 50)
-    @Column(name = "DESCRICAO", nullable = false, length = 50)
-    private String descricao;
+    @Size(max = 100)
+    @Column(name = "NOME", nullable = false, unique = true, length = 100)
+    private String nome;
 
     @CreationTimestamp
     @Column(name = "CREATED_AT", nullable = false)
@@ -41,7 +39,4 @@ public class Calibre {
 
     @Column(name = "DELETED_AT")
     private LocalDateTime deletedAt;
-
-
-
 }

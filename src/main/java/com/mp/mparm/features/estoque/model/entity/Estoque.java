@@ -1,35 +1,35 @@
-package com.mp.mparm.features.calibre.model.entity;
+package com.mp.mparm.features.estoque.model.entity;
 
+import com.mp.mparm.features.modeloArma.model.entity.ModeloArma;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "CALIBRE")
+@Table(name = "ESTOQUE_ARMA")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Calibre {
+public class Estoque {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
-    @NotBlank
-    @Size(max = 50)
-    @Column(name = "DESCRICAO", nullable = false, length = 50)
-    private String descricao;
+    @ManyToOne
+    @JoinColumn(name = "MODELO_ARMA_ID", referencedColumnName = "ID", nullable = false)
+    private ModeloArma modeloArma;
+
+    @Column(name = "QUANTIDADE", nullable = false)
+    private Integer quantidade;
 
     @CreationTimestamp
     @Column(name = "CREATED_AT", nullable = false)
@@ -40,8 +40,5 @@ public class Calibre {
     private LocalDate updatedAt;
 
     @Column(name = "DELETED_AT")
-    private LocalDateTime deletedAt;
-
-
-
+    private LocalDate deletedAt;
 }

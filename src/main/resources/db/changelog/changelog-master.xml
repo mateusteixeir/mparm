@@ -6,4 +6,5 @@
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd">
 
     <include file="db/changelog/tables/001-create-table-agente.xml"/>
+    <include file="db/changelog/tables/002-create-table-calibre.xml"/>
 </databaseChangeLog>
