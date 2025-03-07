@@ -26,8 +26,12 @@ public class Fabricante {
 
     @NotBlank
     @Size(max = 100)
-    @Column(name = "NOME", nullable = false, unique = true, length = 100)
+    @Column(name = "NOME", nullable = false, length = 100)
     private String nome;
+
+    @NotBlank
+    @Column(name = "CNPJ", nullable = false, unique = true)
+    private String cnpj;
 
     @CreationTimestamp
     @Column(name = "CREATED_AT", nullable = false)

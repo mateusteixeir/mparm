@@ -7,4 +7,5 @@
 
     <include file="db/changelog/tables/001-create-table-agente.xml"/>
     <include file="db/changelog/tables/002-create-table-calibre.xml"/>
+    <include file="db/changelog/tables/003-create-table-fabricante.xml"/>
 </databaseChangeLog>
