@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MYSQL # Usando H2 em memória no modo MySQL para simular um banco mais próximo do real
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  # Utilizando 'create-drop' para garantir que as tabelas sejam deletadas nos testes e recriadas.
+      dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.xml
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MYSQL
+    user: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
