@@ -4,14 +4,19 @@ import com.mp.mparm.features.agente.converter.AgenteConverter;
 import com.mp.mparm.features.agente.model.dto.AgenteCadDTO;
 import com.mp.mparm.features.agente.model.entity.Agente;
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -24,7 +29,8 @@ class AgenteRepositoryTest {
     EntityManager entityManager;
 
     @Test
-    void existsByCpf() {
+    @DisplayName("Valida se existe um agente no banco de dados com base no CPF Informado.")
+    void existsByCpfCase1() {
         AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
         this.createAgente(agenteCadDTO);
 
@@ -32,7 +38,15 @@ class AgenteRepositoryTest {
     }
 
     @Test
-    void existsByEmail() {
+    @DisplayName("Valida se não existe um agente no banco de dados com base no CPF Informado.")
+    void existsByCpfCase2() {
+
+        assertFalse(agenteRepository.existsByCpf("12345678904"));
+    }
+
+    @Test
+    @DisplayName("Valida se existe um agente no banco de dados com base no EMAIL Informado.")
+    void existsByEmailCase1() {
         AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
         this.createAgente(agenteCadDTO);
 
@@ -40,18 +54,49 @@ class AgenteRepositoryTest {
     }
 
     @Test
-    void findByDeletedAtIsNull() {
-        AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
-        this.createAgente(agenteCadDTO);
+    @DisplayName("Valida se não existe um agente no banco de dados com base no EMAIL Informado.")
+    void existsByEmailCase2() {
 
-        assertNotNull(agenteRepository.findByDeletedAtIsNull());
+        assertFalse(agenteRepository.existsByEmail("lucas.pereira@example.com"));
     }
 
     @Test
-    void findByIdAndDeletedAtIsNull() {
+    @DisplayName("Deve validar se retorna uma lista com um elemento")
+    void findByDeletedAtIsNullCase1() {
+        AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
+        this.createAgente(agenteCadDTO);
+
+        List<Agente> agentesAtivos = agenteRepository.findByDeletedAtIsNull();
+
+        assertThat(agentesAtivos).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("Deve validar se retorna uma lista vazia")
+    void findByDeletedAtIsNullCase2() {
+
+        List<Agente> agentesAtivos = agenteRepository.findByDeletedAtIsNull();
+
+        assertThat(agentesAtivos).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Valida se retorna algum agente.")
+    void findByIdAndDeletedAtIsNullCase1() {
         AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
         Agente agente = this.createAgente(agenteCadDTO);
-        assertTrue(agenteRepository.findByIdAndDeletedAtIsNull(agente.getId()).isPresent());
+        Optional<Agente> result = agenteRepository.findByIdAndDeletedAtIsNull(agente.getId());
+
+        assertThat(result.isPresent()).isTrue();
+    }
+
+    @Test
+    @DisplayName("Valida de não retorna nenhum agente do banco de dados.")
+    void findByIdAndDeletedAtIsNullCase2() {
+
+        Optional<Agente> result = agenteRepository.findByIdAndDeletedAtIsNull(1L);
+
+        assertThat(result.isPresent()).isFalse();
     }
 
 

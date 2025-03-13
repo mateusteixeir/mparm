@@ -1,10 +1,5 @@
 package com.mp.mparm.features.calibre.controller;
 
-import com.mp.mparm.features.agente.converter.AgenteConverter;
-import com.mp.mparm.features.agente.model.dto.AgenteCadDTO;
-import com.mp.mparm.features.agente.model.dto.AgenteListagemDTO;
-import com.mp.mparm.features.agente.model.entity.Agente;
-import com.mp.mparm.features.agente.service.AgenteService;
 import com.mp.mparm.features.calibre.converter.CalibreConverter;
 import com.mp.mparm.features.calibre.model.dto.CalibreCadDTO;
 import com.mp.mparm.features.calibre.model.dto.CalibreListagemDTO;
@@ -31,7 +26,6 @@ public class CalibreController {
         Calibre calibreCadastrado = calibreService.cadastrarCalibre(calibre);
         return ResponseEntity.status(HttpStatus.CREATED).body(calibreCadastrado);
     }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<Calibre> atualizarCalibre(@PathVariable Long id, @RequestBody CalibreCadDTO CalibreCadDTO) {
