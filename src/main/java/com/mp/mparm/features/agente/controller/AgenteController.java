@@ -1,9 +1,8 @@
 package com.mp.mparm.features.agente.controller;
 
-import com.mp.mparm.features.agente.converter.AgenteConverter;
-import com.mp.mparm.features.agente.model.dto.AgenteCadDTO;
-import com.mp.mparm.features.agente.model.dto.AgenteListagemDTO;
-import com.mp.mparm.features.agente.model.entity.Agente;
+import com.mp.mparm.features.agente.usecase.dto.AgenteCadDTO;
+import com.mp.mparm.features.agente.usecase.dto.AgenteListagemDTO;
+import com.mp.mparm.features.agente.model.entity.AgenteEntity;
 import com.mp.mparm.features.agente.service.AgenteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +20,14 @@ public class AgenteController {
     AgenteService agenteService;
 
     @PostMapping
-    public ResponseEntity<Agente> cadastrarNovoAgente(@RequestBody @Valid AgenteCadDTO agenteCadDTO) {
-        Agente agente = AgenteConverter.fromAgente(agenteCadDTO);
-        Agente agenteCadastrado = agenteService.cadastrarAgente(agente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(agenteCadastrado);
+    public ResponseEntity<AgenteCadDTO> cadastrarNovoAgente(@RequestBody @Valid AgenteCadDTO agenteCadDTO) {
+        agenteService.cadastrarAgente(agenteCadDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Agente> atualizarAgente(@PathVariable Long id, @RequestBody AgenteCadDTO agenteCadDTO) {
-        Agente agenteAtualizado = agenteService.atualizarAgente(id, agenteCadDTO);
+    public ResponseEntity<AgenteEntity> atualizarAgente(@PathVariable Long id, @RequestBody AgenteCadDTO agenteCadDTO) {
+        AgenteEntity agenteAtualizado = agenteService.atualizarAgente(id, agenteCadDTO);
         return ResponseEntity.ok(agenteAtualizado);
     }
 

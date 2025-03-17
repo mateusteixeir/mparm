@@ -1,4 +1,4 @@
-package com.mp.mparm.features.agente.model.dto;
+package com.mp.mparm.features.agente.usecase.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,11 +1,13 @@
 package com.mp.mparm.features.agente.service;
 
 import com.mp.mparm.features.agente.converter.AgenteConverter;
+import com.mp.mparm.features.agente.repository.IAgenteRepository;
+import com.mp.mparm.features.agente.usecase.CriarAgenteUseCase;
 import com.mp.mparm.features.exception.DuplicateResourceException;
-import com.mp.mparm.features.agente.model.dto.AgenteCadDTO;
-import com.mp.mparm.features.agente.model.dto.AgenteListagemDTO;
-import com.mp.mparm.features.agente.model.entity.Agente;
-import com.mp.mparm.features.agente.repository.AgenteRepository;
+import com.mp.mparm.features.agente.usecase.dto.AgenteCadDTO;
+import com.mp.mparm.features.agente.usecase.dto.AgenteListagemDTO;
+import com.mp.mparm.features.agente.model.entity.AgenteEntity;
+import com.mp.mparm.features.agente.repository.IJPAAgenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,34 +19,26 @@ import java.util.List;
 public class AgenteService {
 
     @Autowired
-    private AgenteRepository agenteRepository;
+    private IAgenteRepository agenteRepository;
+
+    @Autowired
+    private AgenteConverter agenteConverter;
 
     @Transactional
-    public Agente cadastrarAgente(Agente agente) {
-        if (agenteRepository.existsByCpf(agente.getCpf())) {
-            throw new DuplicateResourceException("CPF já cadastrado.");
-        }
-        if (agenteRepository.existsByEmail(agente.getEmail())) {
-            throw new DuplicateResourceException("Email já cadastrado.");
-        }
+    public void cadastrarAgente(AgenteCadDTO agenteCadDTODTO) {
+        CriarAgenteUseCase criacao = new CriarAgenteUseCase(agenteRepository);
 
-        return agenteRepository.save(agente);
+        criacao.executarCriacao(agenteCadDTODTO);
     }
 
     @Transactional
-    public Agente atualizarAgente(Long id, AgenteCadDTO agenteCadDTO){
+    public AgenteEntity atualizarAgente(Long id, AgenteCadDTO agenteCadDTO){
 
-        if (agenteRepository.existsByCpf(agenteCadDTO.cpf())) {
-            throw new DuplicateResourceException("Já existe um agente com este CPF.");
-        }
 
-        if (agenteRepository.existsByEmail(agenteCadDTO.email())) {
-            throw new DuplicateResourceException("Já existe um agente com este email.");
-        }
 
-        Agente agente = AgenteConverter.fromAgente(agenteCadDTO);
+        AgenteEntity agente = AgenteConverter.fromAgente(agenteCadDTO);
 
-        Agente agenteAtualizado = agenteRepository.findByIdAndDeletedAtIsNull(id)
+        AgenteEntity agenteAtualizado = agenteRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new IllegalArgumentException("Agente não encontrado"));
 
         if (agente.getNome() != null) {
@@ -70,8 +64,8 @@ public class AgenteService {
     }
 
     @Transactional
-    public Agente deletarAgente(Long id) {
-        Agente agente = agenteRepository.findByIdAndDeletedAtIsNull(id).orElseThrow(() -> new RuntimeException("Agente não encontrado"));
+    public AgenteEntity deletarAgente(Long id) {
+        AgenteEntity agente = agenteRepository.findByIdAndDeletedAtIsNull(id).orElseThrow(() -> new RuntimeException("Agente não encontrado"));
 
         agente.setDeletedAt(LocalDateTime.now());
         return agenteRepository.save(agente);

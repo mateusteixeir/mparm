@@ -1,6 +1,6 @@
-package com.mp.mparm.features.agente.model.dto;
+package com.mp.mparm.features.agente.usecase.dto;
 
-import com.mp.mparm.features.agente.model.entity.Agente;
+import com.mp.mparm.features.agente.model.entity.AgenteEntity;
 
 public record AgenteListagemDTO(
         Long id,
@@ -9,7 +9,7 @@ public record AgenteListagemDTO(
         String cpf,
         String email,
         String telefone) {
-    public AgenteListagemDTO (Agente agente) {
+    public AgenteListagemDTO (AgenteEntity agente) {
         this(agente.getId(), agente.getNome(), agente.getSobrenome(), agente.getCpf(), agente.getEmail(), agente.getTelefone());
     }
 }

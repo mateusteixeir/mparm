@@ -1,8 +1,8 @@
 package com.mp.mparm.features.agente.repository;
 
 import com.mp.mparm.features.agente.converter.AgenteConverter;
-import com.mp.mparm.features.agente.model.dto.AgenteCadDTO;
-import com.mp.mparm.features.agente.model.entity.Agente;
+import com.mp.mparm.features.agente.usecase.dto.AgenteCadDTO;
+import com.mp.mparm.features.agente.model.entity.AgenteEntity;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AgenteRepositoryTest {
 
     @Autowired
-    private AgenteRepository agenteRepository;
+    private IJPAAgenteRepository agenteRepository;
 
     @Autowired
     EntityManager entityManager;
@@ -66,7 +66,7 @@ class AgenteRepositoryTest {
         AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
         this.createAgente(agenteCadDTO);
 
-        List<Agente> agentesAtivos = agenteRepository.findByDeletedAtIsNull();
+        List<AgenteEntity> agentesAtivos = agenteRepository.findByDeletedAtIsNull();
 
         assertThat(agentesAtivos).hasSize(1);
     }
@@ -75,7 +75,7 @@ class AgenteRepositoryTest {
     @DisplayName("Deve validar se retorna uma lista vazia")
     void findByDeletedAtIsNullCase2() {
 
-        List<Agente> agentesAtivos = agenteRepository.findByDeletedAtIsNull();
+        List<AgenteEntity> agentesAtivos = agenteRepository.findByDeletedAtIsNull();
 
         assertThat(agentesAtivos).isEmpty();
     }
@@ -84,8 +84,8 @@ class AgenteRepositoryTest {
     @DisplayName("Valida se retorna algum agente.")
     void findByIdAndDeletedAtIsNullCase1() {
         AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
-        Agente agente = this.createAgente(agenteCadDTO);
-        Optional<Agente> result = agenteRepository.findByIdAndDeletedAtIsNull(agente.getId());
+        AgenteEntity agente = this.createAgente(agenteCadDTO);
+        Optional<AgenteEntity> result = agenteRepository.findByIdAndDeletedAtIsNull(agente.getId());
 
         assertThat(result.isPresent()).isTrue();
     }
@@ -94,14 +94,14 @@ class AgenteRepositoryTest {
     @DisplayName("Valida de não retorna nenhum agente do banco de dados.")
     void findByIdAndDeletedAtIsNullCase2() {
 
-        Optional<Agente> result = agenteRepository.findByIdAndDeletedAtIsNull(1L);
+        Optional<AgenteEntity> result = agenteRepository.findByIdAndDeletedAtIsNull(1L);
 
         assertThat(result.isPresent()).isFalse();
     }
 
 
-    private Agente createAgente(AgenteCadDTO agenteCadDTO){
-        Agente agente = AgenteConverter.fromAgente(agenteCadDTO);
+    private AgenteEntity createAgente(AgenteCadDTO agenteCadDTO){
+        AgenteEntity agente = AgenteConverter.fromAgente(agenteCadDTO);
         agenteRepository.save(agente);
         return agente;
     }
