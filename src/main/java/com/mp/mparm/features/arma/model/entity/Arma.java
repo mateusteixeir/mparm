@@ -1,9 +1,10 @@
-package com.mp.mparm.features.modeloArma.model.entity;
+package com.mp.mparm.features.arma.model.entity;
 
 import com.mp.mparm.features.calibre.model.entity.Calibre;
 import com.mp.mparm.features.fabricante.model.entity.Fabricante;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,15 +12,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "MODELO_ARMA")
+@Table(name = "ARMA")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class ModeloArma {
+public class Arma {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,16 +28,22 @@ public class ModeloArma {
 
     @NotBlank
     @Size(max = 100)
-    @Column(name = "DESCRICAO", nullable = false, length = 100)
-    private String descricao;
+    @Column(name = "MODELO", nullable = false, length = 100)
+    private String modelo;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "CALIBRE_ID", nullable = false)
     private Calibre calibre;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "FABRICANTE_ID", nullable = false)
     private Fabricante fabricante;
+
+    @NotBlank
+    @Column(name = "NUMERO_SERIE", nullable = false, unique = true)
+    private String numeroSerie;
 
     @CreationTimestamp
     @Column(name = "CREATED_AT", nullable = false)

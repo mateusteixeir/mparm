@@ -8,4 +8,8 @@
     <include file="db/changelog/tables/001-create-table-agente.xml"/>
     <include file="db/changelog/tables/002-create-table-calibre.xml"/>
     <include file="db/changelog/tables/003-create-table-fabricante.xml"/>
+    <include file="db/changelog/tables/004-create-table-arma.xml"/>
+    <include file="db/changelog/tables/005-create-table-modeloArma.xml"/>
+    <include file="db/changelog/tables/006-create-table-reservaArma.xml"/>
+
 </databaseChangeLog>

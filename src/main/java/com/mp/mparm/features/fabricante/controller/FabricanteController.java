@@ -1,9 +1,7 @@
 package com.mp.mparm.features.fabricante.controller;
 
 
-import com.mp.mparm.features.calibre.model.dto.CalibreCadDTO;
-import com.mp.mparm.features.calibre.model.dto.CalibreListagemDTO;
-import com.mp.mparm.features.calibre.model.entity.Calibre;
+
 import com.mp.mparm.features.fabricante.converter.FabricanteConverter;
 import com.mp.mparm.features.fabricante.model.dto.FabricanteCadDTO;
 import com.mp.mparm.features.fabricante.model.dto.FabricanteListagemDTO;

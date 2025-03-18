@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="6" author="Mateus Soares">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="RESERVA"/>
+            </not>
+        </preConditions>
+        <createTable tableName="RESERVA">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="AGENTE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ARMA_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATA_RESERVA" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATA_DEVOLUCAO" type="DATE"/>
+            <column name="STATUS" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_AT" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATED_AT" type="DATE"/>
+        </createTable>
+
+        <!-- Adicionando as chaves estrangeiras -->
+        <addForeignKeyConstraint
+            baseTableName="RESERVA"
+            baseColumnNames="AGENTE_ID"
+            referencedTableName="AGENTE"
+            referencedColumnNames="ID"
+            constraintName="FK_RESERVA_AGENTE"/>
+        <addForeignKeyConstraint
+            baseTableName="RESERVA"
+            baseColumnNames="ARMA_ID"
+            referencedTableName="ARMA"
+            referencedColumnNames="ID"
+            constraintName="FK_RESERVA_ARMA"/>
+    </changeSet>
+
+</databaseChangeLog>
