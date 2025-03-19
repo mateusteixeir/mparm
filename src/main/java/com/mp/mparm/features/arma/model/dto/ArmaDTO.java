@@ -7,7 +7,7 @@ public record ArmaDTO(
         Long id,
 
         @NotBlank
-        String modelo,
+        Long modeloId,
 
         @NotNull
         Long calibreId,

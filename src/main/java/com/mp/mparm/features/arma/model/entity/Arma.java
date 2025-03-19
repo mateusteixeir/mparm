@@ -2,6 +2,7 @@ package com.mp.mparm.features.arma.model.entity;
 
 import com.mp.mparm.features.calibre.model.entity.Calibre;
 import com.mp.mparm.features.fabricante.model.entity.Fabricante;
+import com.mp.mparm.features.modeloArma.model.entity.ModeloArma;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,10 +27,10 @@ public class Arma {
     @Column(name = "ID")
     private Long id;
 
-    @NotBlank
-    @Size(max = 100)
-    @Column(name = "MODELO", nullable = false, length = 100)
-    private String modelo;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "MODELO_ID", nullable = false)
+    private ModeloArma modelo;
 
     @NotNull
     @ManyToOne

@@ -5,6 +5,7 @@ import com.mp.mparm.features.arma.model.entity.Arma;
 import com.mp.mparm.features.arma.repository.ArmaRepository;
 import com.mp.mparm.features.calibre.repository.CalibreRepository;
 import com.mp.mparm.features.fabricante.repository.FabricanteRepository;
+import com.mp.mparm.features.modeloArma.repository.ModeloArmaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArmaService {
 
+    private final ModeloArmaRepository modeloArmaRepository;
     private final ArmaRepository armaRepository;
     private final CalibreRepository calibreRepository;
     private final FabricanteRepository fabricanteRepository;
@@ -28,13 +30,17 @@ public class ArmaService {
     }
 
     public Arma salvar(ArmaDTO dto) {
+
+        var modelo = modeloArmaRepository.findById(dto.modeloId())
+                .orElseThrow(() -> new IllegalArgumentException("Modelo não encontrado"));
+
         var calibre = calibreRepository.findById(dto.calibreId())
                 .orElseThrow(() -> new IllegalArgumentException("Calibre não encontrado"));
 
         var fabricante = fabricanteRepository.findById(dto.fabricanteId())
                 .orElseThrow(() -> new IllegalArgumentException("Fabricante não encontrado"));
 
-        Arma arma = new Arma(null, dto.modelo(), calibre, fabricante, dto.numeroSerie(), null, null, null);
+        Arma arma = new Arma(null, modelo, calibre, fabricante, dto.numeroSerie(), null, null, null);
         return armaRepository.save(arma);
     }
 
