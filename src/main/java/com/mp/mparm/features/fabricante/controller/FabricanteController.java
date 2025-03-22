@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("fabricantes")
+@RequestMapping("api/fabricantes")
 public class FabricanteController {
 
     @Autowired

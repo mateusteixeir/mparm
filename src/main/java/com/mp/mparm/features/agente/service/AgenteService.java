@@ -1,11 +1,13 @@
 package com.mp.mparm.features.agente.service;
 
-import com.mp.mparm.features.agente.converter.AgenteConverter;
-import com.mp.mparm.features.exception.DuplicateResourceException;
-import com.mp.mparm.features.agente.model.dto.AgenteCadDTO;
+import com.mp.mparm.features.agente.usecase.AtualizarAgenteUseCase;
+import com.mp.mparm.features.agente.usecase.CriarAgenteUseCase;
+import com.mp.mparm.features.agente.model.dto.AgenteDTO;
 import com.mp.mparm.features.agente.model.dto.AgenteListagemDTO;
 import com.mp.mparm.features.agente.model.entity.Agente;
 import com.mp.mparm.features.agente.repository.AgenteRepository;
+import com.mp.mparm.features.agente.usecase.DeletarAgenteUseCase;
+import com.mp.mparm.features.agente.usecase.ListarAgenteUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,66 +23,29 @@ public class AgenteService {
 
     @Transactional
     public Agente cadastrarAgente(Agente agente) {
-        if (agenteRepository.existsByCpf(agente.getCpf())) {
-            throw new DuplicateResourceException("CPF já cadastrado.");
-        }
-        if (agenteRepository.existsByEmail(agente.getEmail())) {
-            throw new DuplicateResourceException("Email já cadastrado.");
-        }
-
-        return agenteRepository.save(agente);
+        CriarAgenteUseCase criarAgenteUseCase = new CriarAgenteUseCase(agenteRepository);
+        return criarAgenteUseCase.executarCriacaoAgente(agente);
     }
 
     @Transactional
-    public Agente atualizarAgente(Long id, AgenteCadDTO agenteCadDTO){
+    public Agente atualizarAgente(Long id, AgenteDTO agenteCadDTO){
+        AtualizarAgenteUseCase atualizarAgenteUseCase = new AtualizarAgenteUseCase(agenteRepository);
 
-        if (agenteRepository.existsByCpf(agenteCadDTO.cpf())) {
-            throw new DuplicateResourceException("Já existe um agente com este CPF.");
-        }
-
-        if (agenteRepository.existsByEmail(agenteCadDTO.email())) {
-            throw new DuplicateResourceException("Já existe um agente com este email.");
-        }
-
-        Agente agente = AgenteConverter.fromAgente(agenteCadDTO);
-
-        Agente agenteAtualizado = agenteRepository.findByIdAndDeletedAtIsNull(id)
-                .orElseThrow(() -> new IllegalArgumentException("Agente não encontrado"));
-
-        if (agente.getNome() != null) {
-            agenteAtualizado.setNome(agente.getNome());
-        }
-        if (agente.getSobrenome() != null) {
-            agenteAtualizado.setSobrenome(agente.getSobrenome());
-        }
-        if (agente.getCpf() != null) {
-            agenteAtualizado.setCpf(agente.getCpf());
-        }
-        if (agente.getDataNascimento() != null) {
-            agenteAtualizado.setDataNascimento(agente.getDataNascimento());
-        }
-        if (agente.getEmail() != null) {
-            agenteAtualizado.setEmail(agente.getEmail());
-        }
-        if (agente.getTelefone() != null) {
-            agenteAtualizado.setTelefone(agente.getTelefone());
-        }
-
-        return agenteRepository.save(agenteAtualizado);
+        return atualizarAgenteUseCase.executarAtualizacaoAgente(id,agenteCadDTO);
     }
 
     @Transactional
-    public Agente deletarAgente(Long id) {
-        Agente agente = agenteRepository.findByIdAndDeletedAtIsNull(id).orElseThrow(() -> new RuntimeException("Agente não encontrado"));
+    public void deletarAgente(Long id) {
+        DeletarAgenteUseCase deletarAgenteUseCase = new DeletarAgenteUseCase(agenteRepository);
 
-        agente.setDeletedAt(LocalDateTime.now());
-        return agenteRepository.save(agente);
+        deletarAgenteUseCase.executarDelecaoAgente(id);
     }
 
     public List<AgenteListagemDTO> listarAgentes() {
-        return agenteRepository.findByDeletedAtIsNull().stream().map(AgenteListagemDTO::new).toList();
+        ListarAgenteUseCase listarAgenteUseCase = new ListarAgenteUseCase(agenteRepository);
+
+        return listarAgenteUseCase.executarListagem();
+
     }
-
-
 
 }

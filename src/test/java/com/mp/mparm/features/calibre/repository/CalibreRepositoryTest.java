@@ -1,7 +1,7 @@
 package com.mp.mparm.features.calibre.repository;
 
 import com.mp.mparm.features.calibre.converter.CalibreConverter;
-import com.mp.mparm.features.calibre.model.dto.CalibreCadDTO;
+import com.mp.mparm.features.calibre.model.dto.CalibreDTO;
 import com.mp.mparm.features.calibre.model.entity.Calibre;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ class CalibreRepositoryTest {
 
     @Test
     void existsByDescricao() {
-        CalibreCadDTO calibreCadDTO = new CalibreCadDTO(".40");
+        CalibreDTO calibreCadDTO = new CalibreDTO(".40");
         Calibre calibre = this.salvarCalibre(calibreCadDTO);
 
         assertTrue(calibreRepository.existsByDescricao(calibre.getDescricao()));
@@ -34,7 +34,7 @@ class CalibreRepositoryTest {
     }
 
 
-    private Calibre salvarCalibre(CalibreCadDTO dtoCalibre){
+    private Calibre salvarCalibre(CalibreDTO dtoCalibre){
         Calibre calibre = CalibreConverter.fromCalibre(dtoCalibre);
         calibreRepository.save(calibre);
         return calibre;

@@ -1,7 +1,7 @@
 package com.mp.mparm.features.calibre.controller;
 
 import com.mp.mparm.features.calibre.converter.CalibreConverter;
-import com.mp.mparm.features.calibre.model.dto.CalibreCadDTO;
+import com.mp.mparm.features.calibre.model.dto.CalibreDTO;
 import com.mp.mparm.features.calibre.model.dto.CalibreListagemDTO;
 import com.mp.mparm.features.calibre.model.entity.Calibre;
 import com.mp.mparm.features.calibre.service.CalibreService;
@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("calibres")
+@RequestMapping("api/calibres")
 public class CalibreController {
 
     @Autowired
     CalibreService calibreService;
 
     @PostMapping
-    public ResponseEntity<Calibre> cadastrarNovoCalibre(@RequestBody @Valid CalibreCadDTO cadastroCalibreDTO) {
+    public ResponseEntity<Calibre> cadastrarNovoCalibre(@RequestBody @Valid CalibreDTO cadastroCalibreDTO) {
         Calibre calibre = CalibreConverter.fromCalibre(cadastroCalibreDTO);
         Calibre calibreCadastrado = calibreService.cadastrarCalibre(calibre);
         return ResponseEntity.status(HttpStatus.CREATED).body(calibreCadastrado);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Calibre> atualizarCalibre(@PathVariable Long id, @RequestBody CalibreCadDTO CalibreCadDTO) {
+    public ResponseEntity<Calibre> atualizarCalibre(@PathVariable Long id, @RequestBody CalibreDTO CalibreCadDTO) {
         Calibre calibreAtualizado = calibreService.atualizarCalibre(id, CalibreCadDTO);
         return ResponseEntity.ok(calibreAtualizado);
     }

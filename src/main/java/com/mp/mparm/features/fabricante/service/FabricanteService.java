@@ -1,8 +1,5 @@
 package com.mp.mparm.features.fabricante.service;
 
-import com.mp.mparm.features.calibre.converter.CalibreConverter;
-import com.mp.mparm.features.calibre.model.dto.CalibreCadDTO;
-import com.mp.mparm.features.calibre.model.entity.Calibre;
 import com.mp.mparm.features.exception.DuplicateResourceException;
 import com.mp.mparm.features.exception.ResourceNotFoundException;
 import com.mp.mparm.features.fabricante.converter.FabricanteConverter;

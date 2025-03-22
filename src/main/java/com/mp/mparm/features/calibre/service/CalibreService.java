@@ -1,10 +1,11 @@
 package com.mp.mparm.features.calibre.service;
 
 import com.mp.mparm.features.calibre.converter.CalibreConverter;
-import com.mp.mparm.features.calibre.model.dto.CalibreCadDTO;
+import com.mp.mparm.features.calibre.model.dto.CalibreDTO;
 import com.mp.mparm.features.calibre.model.dto.CalibreListagemDTO;
 import com.mp.mparm.features.calibre.model.entity.Calibre;
 import com.mp.mparm.features.calibre.repository.CalibreRepository;
+import com.mp.mparm.features.calibre.usecase.CadastroCalibreUseCase;
 import com.mp.mparm.features.exception.DuplicateResourceException;
 import com.mp.mparm.features.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,13 @@ public class CalibreService {
     @Transactional
     public Calibre cadastrarCalibre(Calibre calibre) {
 
-        if (calibreRepository.existsByDescricao(calibre.getDescricao())) {
-            throw new DuplicateResourceException("Calibre já cadastrado");
-        }
-        return calibreRepository.save(calibre);
+        CadastroCalibreUseCase cadastroCalibreUseCase = new CadastroCalibreUseCase(calibreRepository);
+
+        return cadastroCalibreUseCase.executarCriacaoCalibre(calibre);
     }
 
     @Transactional
-    public Calibre atualizarCalibre(Long id, CalibreCadDTO calibreCadDTO){
+    public Calibre atualizarCalibre(Long id, CalibreDTO calibreCadDTO){
 
         if (calibreRepository.existsByDescricao(calibreCadDTO.descricao())) {
             throw new DuplicateResourceException("Calibre já cadastrado");

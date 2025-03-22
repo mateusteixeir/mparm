@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record AgenteCadDTO(
+public record AgenteDTO(
         @NotBlank(message = "O nome é obrigatório")
         String nome,
 

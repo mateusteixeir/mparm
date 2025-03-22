@@ -1,7 +1,7 @@
 package com.mp.mparm.features.agente.repository;
 
 import com.mp.mparm.features.agente.converter.AgenteConverter;
-import com.mp.mparm.features.agente.model.dto.AgenteCadDTO;
+import com.mp.mparm.features.agente.model.dto.AgenteDTO;
 import com.mp.mparm.features.agente.model.entity.Agente;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ class AgenteRepositoryTest {
     @Test
     @DisplayName("Valida se existe um agente no banco de dados com base no CPF Informado.")
     void existsByCpfCase1() {
-        AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
+        AgenteDTO agenteCadDTO = new AgenteDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
         this.createAgente(agenteCadDTO);
 
         assertTrue(agenteRepository.existsByCpf("12345678904"));
@@ -47,7 +47,7 @@ class AgenteRepositoryTest {
     @Test
     @DisplayName("Valida se existe um agente no banco de dados com base no EMAIL Informado.")
     void existsByEmailCase1() {
-        AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
+        AgenteDTO agenteCadDTO = new AgenteDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
         this.createAgente(agenteCadDTO);
 
         assertTrue(agenteRepository.existsByEmail("lucas.pereira@example.com"));
@@ -63,7 +63,7 @@ class AgenteRepositoryTest {
     @Test
     @DisplayName("Deve validar se retorna uma lista com um elemento")
     void findByDeletedAtIsNullCase1() {
-        AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
+        AgenteDTO agenteCadDTO = new AgenteDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
         this.createAgente(agenteCadDTO);
 
         List<Agente> agentesAtivos = agenteRepository.findByDeletedAtIsNull();
@@ -83,7 +83,7 @@ class AgenteRepositoryTest {
     @Test
     @DisplayName("Valida se retorna algum agente.")
     void findByIdAndDeletedAtIsNullCase1() {
-        AgenteCadDTO agenteCadDTO = new AgenteCadDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
+        AgenteDTO agenteCadDTO = new AgenteDTO("Lucas", "Pereira", "12345678904", LocalDate.parse("1988-07-15"), "lucas.pereira@example.com", "11987654324");
         Agente agente = this.createAgente(agenteCadDTO);
         Optional<Agente> result = agenteRepository.findByIdAndDeletedAtIsNull(agente.getId());
 
@@ -100,7 +100,7 @@ class AgenteRepositoryTest {
     }
 
 
-    private Agente createAgente(AgenteCadDTO agenteCadDTO){
+    private Agente createAgente(AgenteDTO agenteCadDTO){
         Agente agente = AgenteConverter.fromAgente(agenteCadDTO);
         agenteRepository.save(agente);
         return agente;
